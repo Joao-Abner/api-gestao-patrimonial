@@ -9,10 +9,6 @@ import {
 export class CreatePatrimonioDto {
   @IsString()
   @IsNotEmpty()
-  id: string;
-
-  @IsString()
-  @IsNotEmpty()
   nome: string;
 
   @IsString()

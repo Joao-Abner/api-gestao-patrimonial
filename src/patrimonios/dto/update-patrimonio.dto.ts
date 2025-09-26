@@ -11,11 +11,6 @@ export class UpdatePatrimonioDto {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
-  id?: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @IsOptional()
   nome?: string;
 
   @IsString()
