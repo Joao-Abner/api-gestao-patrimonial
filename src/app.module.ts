@@ -1,0 +1,17 @@
+// O que faz este módulo?
+// Este é o módulo raiz da aplicação NestJS. Ele importa os módulos Core e Shared,
+// e define o controlador e serviço principais da aplicação.
+
+import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { CoreModule } from './core/core.module';
+import { SharedModule } from './shared/shared.module';
+import { PatrimoniosModule } from './patrimonios/patrimonios.module';
+
+@Module({
+  imports: [CoreModule, SharedModule, PatrimoniosModule],
+  controllers: [AppController],
+  providers: [AppService],
+})
+export class AppModule {}
