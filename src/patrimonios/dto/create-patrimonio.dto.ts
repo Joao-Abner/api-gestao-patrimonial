@@ -21,6 +21,10 @@ export class CreatePatrimonioDto {
 
   @IsNumber()
   @IsNotEmpty()
+  numeroPatrimonio: number;
+
+  @IsNumber()
+  @IsNotEmpty()
   valor: number;
 
   @IsString()
