@@ -1,6 +1,6 @@
 import { LocalizacaoDto } from '../dto/localizacao.dto';
 export interface Patrimonio {
-  id: string;
+  id: number;
   nome: string;
   numeroPatrimonio: number; // número do patrimônio usado como código de barras
   descricao: string;
