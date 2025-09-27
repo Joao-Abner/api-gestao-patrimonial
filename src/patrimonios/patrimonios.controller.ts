@@ -8,9 +8,14 @@ import {
   Patch,
   Post,
   Put,
+  Query,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { PatrimoniosService } from './patrimonios.service';
-import type { Patrimonio } from './interfaces/patrimonio.interface';
+// import type { Patrimonio } from './interfaces/patrimonio.interface';
+import { CreatePatrimonioDto } from './dto/create-patrimonio.dto';
+import { UpdatePatrimonioDto } from './dto/update-patrimonio.dto';
+import { QueryFilterDto } from './dto/query-filter.dto';
 
 @Controller('patrimonios')
 export class PatrimoniosController {
@@ -19,38 +24,46 @@ export class PatrimoniosController {
   // Método POST para criar um novo patrimônio
   @Post()
   @HttpCode(201)
-  create(@Body() body: Patrimonio) {
-    return this.patrimoniosService.create(body);
+  create(@Body() createPatrimonioDto: CreatePatrimonioDto) {
+    return this.patrimoniosService.create(createPatrimonioDto);
   }
 
-  // Método GET para listar todos os patrimônios
+  // Método GET com filtro e paginação
   @Get()
-  findAll() {
-    return this.patrimoniosService.findAll();
+  findAll(@Query() filters: QueryFilterDto) {
+    // O DTO com @Transform já converte page e limit para number
+    return this.patrimoniosService.findAll(filters);
   }
 
   // Método GET para encontrar um patrimônio específico pelo ID
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    // 3. O ParseIntPipe converte o parâmetro 'id' de string para number
     return this.patrimoniosService.findOne(id);
   }
 
   // Método PUT para atualizar um patrimônio existente pelo ID
   @Put(':id')
-  update(@Param('id') id: string, @Body() body: Partial<Patrimonio>) {
-    return this.patrimoniosService.update(id, body);
+  update(
+    @Param('id', ParseIntPipe) id: number, // Converte para number
+    @Body() updatePatrimonioDto: UpdatePatrimonioDto,
+  ) {
+    return this.patrimoniosService.update(id, updatePatrimonioDto);
   }
 
-  // Método PATCH
+  // Método PATCH para atualização parcial
   @Patch(':id')
-  partialUpdate(@Param('id') id: string, @Body() body: Partial<Patrimonio>) {
-    return this.patrimoniosService.update(id, body);
+  partialUpdate(
+    @Param('id', ParseIntPipe) id: number, // Converte para number
+    @Body() updatePatrimonioDto: UpdatePatrimonioDto,
+  ) {
+    return this.patrimoniosService.update(id, updatePatrimonioDto);
   }
 
   // Método DELETE para remover um patrimônio pelo ID
   @Delete(':id')
   @HttpCode(204)
-  remove(@Param('id') id: string) {
+  remove(@Param('id', ParseIntPipe) id: number) { // Converte para number
     return this.patrimoniosService.remove(id);
   }
 }
