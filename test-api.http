@@ -1,0 +1,131 @@
+# Variáveis para facilitar os testes
+@baseUrl = http://localhost:3000
+
+###
+# (1) POST - Criar novos Patrimônios
+# Execute estas requisições primeiro para popular os dados em memória.
+# Se você estiver usando a extensão REST Client no VSCode, clique em "Send Request" acima de cada uma.
+
+# Criar o primeiro patrimônio
+POST {{baseUrl}}/patrimonios
+Content-Type: application/json
+
+{
+  "nome": "Monitor Dell 24 polegadas",
+  "numeroPatrimonio": 1001,
+  "descricao": "Monitor Full HD para desenvolvimento",
+  "valor": 1200.50,
+  "responsavel": "Alice Silva",
+  "status": "ativo",
+  "localizacao": {
+    "bloco": "B",
+    "andar": "3",
+    "sala": "301"
+  }
+}
+
+###
+# Criar o segundo patrimônio
+POST {{baseUrl}}/patrimonios
+Content-Type: application/json
+
+{
+  "nome": "Cadeira de Escritório",
+  "numeroPatrimonio": 2002,
+  "descricao": "Cadeira ergonômica com apoio de braço",
+  "valor": 850.00,
+  "responsavel": "Roberto Lima",
+  "status": "manutencao",
+  "observacoes": "Apoio de braço quebrado",
+  "localizacao": {
+    "bloco": "A",
+    "andar": "1",
+    "sala": "105"
+  }
+}
+
+###
+# Criar o terceiro patrimônio
+POST {{baseUrl}}/patrimonios
+Content-Type: application/json
+
+{
+  "nome": "Notebook Dell Vostro",
+  "numeroPatrimonio": 3003,
+  "descricao": "Notebook i7 com 16GB RAM",
+  "valor": 5500.75,
+  "responsavel": "Alice Silva",
+  "status": "ativo",
+  "localizacao": {
+    "bloco": "C",
+    "andar": "Térreo",
+    "sala": "Recepção"
+  }
+}
+
+
+###
+# (2) GET - Listar Patrimônios (com e sem filtros)
+
+# Listar TODOS os patrimônios (sem filtro)
+GET {{baseUrl}}/patrimonios
+
+###
+# Listar patrimônios com status "ativo"
+GET {{baseUrl}}/patrimonios?status=ativo
+
+###
+# Listar patrimônios usando o filtro de busca por nome (case-insensitive)
+GET {{baseUrl}}/patrimonios?filtro=dell
+
+###
+# Listar patrimônios combinando filtros
+GET {{baseUrl}}/patrimonios?status=ativo&filtro=dell
+
+###
+# Listar patrimônios com paginação (página 1, limite de 2 por página)
+GET {{baseUrl}}/patrimonios?page=1&limit=2
+
+
+###
+# (3) GET - Buscar um Patrimônio específico pelo ID
+# Lembre-se que o ID é sequencial (1, 2, 3...)
+GET {{baseUrl}}/patrimonios/1
+
+
+###
+# (4) PUT - Atualizar COMPLETAMENTE um Patrimônio
+# O método PUT exige que todos os campos obrigatórios sejam enviados.
+PUT {{baseUrl}}/patrimonios/1
+Content-Type: application/json
+
+{
+  "nome": "Monitor Dell 24p (Atualizado)",
+  "numeroPatrimonio": 1001,
+  "descricao": "Monitor Full HD para desenvolvimento",
+  "valor": 1150.00,
+  "responsavel": "Carlos Pereira",
+  "status": "inativo",
+  "localizacao": {
+    "bloco": "B",
+    "andar": "3",
+    "sala": "302"
+  }
+}
+
+
+###
+# (5) PATCH - Atualizar PARCIALMENTE um Patrimônio
+# O método PATCH permite enviar apenas os campos que você quer alterar.
+PATCH {{baseUrl}}/patrimonios/2
+Content-Type: application/json
+
+{
+  "status": "ativo",
+  "observacoes": "Conserto finalizado."
+}
+
+
+###
+# (6) DELETE - Remover um Patrimônio
+DELETE {{baseUrl}}/patrimonios/3
