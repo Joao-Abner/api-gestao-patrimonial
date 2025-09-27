@@ -18,8 +18,8 @@ Content-Type: application/json
   "responsavel": "Alice Silva",
   "status": "ativo",
   "localizacao": {
-    "bloco": "B",
-    "andar": "3",
+    "bloco": "R",
+    "piso": "3",
     "sala": "301"
   }
 }
