@@ -30,17 +30,17 @@ POST {{baseUrl}}/patrimonios
 Content-Type: application/json
 
 {
-  "nome": "Cadeira de Escritório",
-  "numeroPatrimonio": 2002,
-  "descricao": "Cadeira ergonômica com apoio de braço",
-  "valor": 850.00,
-  "responsavel": "Roberto Lima",
-  "status": "manutencao",
-  "observacoes": "Apoio de braço quebrado",
+  "nome": "",
+  "numeroPatrimonio": "abc",
+  "descricao": 0,
+  "valor": "invalid", 
+  "responsavel": 0,
+  "status": "invalid",
+  "observacoes": 0,
   "localizacao": {
-    "bloco": "A",
-    "andar": "1", // inválido
-    "sala": "105"
+    "bloco": "",
+    "piso": 0,
+    "sala": 0
   }
 }
 
