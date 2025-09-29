@@ -21,7 +21,7 @@ export class PatrimoniosService {
 
   // Método para listar todos os patrimônios com filtro e paginação
   findAll(filters: QueryFilterDto): Patrimonio[] {
-    const { filtro, status, page = 1, limit = 5 } = filters;
+    const { filter, status, page = 1, limit = 5 } = filters;
     let resultado = this.patrimonios;
 
     // 1. Aplica o filtro por status, se existir
@@ -30,9 +30,9 @@ export class PatrimoniosService {
     }
 
     // 2. Aplica o filtro por nome (filtro de busca), se existir
-    if (filtro) {
+    if (filter) {
       resultado = resultado.filter((p) =>
-        p.nome.toLowerCase().includes(filtro.toLowerCase()),
+        p.nome.toLowerCase().includes(filter.toLowerCase()),
       );
     }
 
