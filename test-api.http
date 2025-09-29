@@ -65,62 +65,12 @@ Content-Type: application/json
 
 ###
 # (2) GET - Listar Patrimônios com Filtro e Paginação
-###
-# Listar patrimônios com status "inativo"
-GET {{baseUrl}}/patrimonios?status=inativo
+GET {{baseUrl}}/patrimonios?status=inativo&page=1
 
 ###
 # Listar patrimônios por id
 GET {{baseUrl}}/patrimonios/1
 
 ###
-# Listar patrimônios combinando filtros
-GET {{baseUrl}}/patrimonios?status=ativo&filtro=dell
-
-###
-# Listar patrimônios com paginação (página 1, limite de 2 por página)
-GET {{baseUrl}}/patrimonios?page=1&limit=2
-
-
-###
-# (3) GET - Buscar um Patrimônio específico pelo ID
-# Lembre-se que o ID é sequencial (1, 2, 3...)
-GET {{baseUrl}}/patrimonios/1
-
-
-###
-# (4) PUT - Atualizar COMPLETAMENTE um Patrimônio
-# O método PUT exige que todos os campos obrigatórios sejam enviados.
-PUT {{baseUrl}}/patrimonios/1
-Content-Type: application/json
-
-{
-  "nome": "Monitor Dell 24p (Atualizado)",
-  "numeroPatrimonio": 1001,
-  "descricao": "Monitor Full HD para desenvolvimento",
-  "valor": 1150.00,
-  "responsavel": "Carlos Pereira",
-  "status": "inativo",
-  "localizacao": {
-    "bloco": "B",
-    "andar": "3",
-    "sala": "302"
-  }
-}
-
-
-###
-# (5) PATCH - Atualizar PARCIALMENTE um Patrimônio
-# O método PATCH permite enviar apenas os campos que você quer alterar.
-PATCH {{baseUrl}}/patrimonios/2
-Content-Type: application/json
-
-{
-  "status": "ativo",
-  "observacoes": "Conserto finalizado."
-}
-
-
-###
-# (6) DELETE - Remover um Patrimônio
-DELETE {{baseUrl}}/patrimonios/3
+# Buscar Patrimônio com ID Inválido
+GET {{baseUrl}}/patrimonios/abc
