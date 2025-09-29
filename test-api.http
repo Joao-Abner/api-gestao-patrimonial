@@ -44,34 +44,34 @@ Content-Type: application/json
   }
 }
 
+###
+# Criar patrimônio inativo
+POST {{baseUrl}}/patrimonios
+Content-Type: application/json
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+{
+  "nome": "Monitor Dell 20 polegadas",
+  "numeroPatrimonio": 900,
+  "descricao": "Monitor Full HD para desenvolvimento",
+  "valor": 1100.50,
+  "responsavel": "Pedro Silva",
+  "status": "inativo",
+  "localizacao": {
+    "bloco": "R",
+    "piso": "2",
+    "sala": "201"
+  }
+}
 
 ###
-# (2) GET - Listar Patrimônios (com e sem filtros)
-
-# Listar TODOS os patrimônios (sem filtro)
-GET {{baseUrl}}/patrimonios
+# (2) GET - Listar Patrimônios com Filtro e Paginação
+###
+# Listar patrimônios com status "inativo"
+GET {{baseUrl}}/patrimonios?status=inativo
 
 ###
-# Listar patrimônios com status "ativo"
-GET {{baseUrl}}/patrimonios?status=ativo
-
-###
-# Listar patrimônios usando o filtro de busca por nome (case-insensitive)
-GET {{baseUrl}}/patrimonios?filtro=dell
+# Listar patrimônios por id
+GET {{baseUrl}}/patrimonios/1
 
 ###
 # Listar patrimônios combinando filtros
