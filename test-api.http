@@ -25,7 +25,7 @@ Content-Type: application/json
 }
 
 ###
-# Criar o segundo patrimônio
+# Criar o patrimônio inválido
 POST {{baseUrl}}/patrimonios
 Content-Type: application/json
 
@@ -39,29 +39,24 @@ Content-Type: application/json
   "observacoes": "Apoio de braço quebrado",
   "localizacao": {
     "bloco": "A",
-    "andar": "1",
+    "andar": "1", // inválido
     "sala": "105"
   }
 }
 
-###
-# Criar o terceiro patrimônio
-POST {{baseUrl}}/patrimonios
-Content-Type: application/json
 
-{
-  "nome": "Notebook Dell Vostro",
-  "numeroPatrimonio": 3003,
-  "descricao": "Notebook i7 com 16GB RAM",
-  "valor": 5500.75,
-  "responsavel": "Alice Silva",
-  "status": "ativo",
-  "localizacao": {
-    "bloco": "C",
-    "andar": "Térreo",
-    "sala": "Recepção"
-  }
-}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ###
