@@ -8,9 +8,10 @@ import { AppService } from './app.service';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { PatrimoniosModule } from './patrimonios/patrimonios.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
-  imports: [CoreModule, SharedModule, PatrimoniosModule],
+  imports: [CoreModule, SharedModule, PatrimoniosModule, UsersModule],
   controllers: [AppController],
   providers: [AppService],
 })
