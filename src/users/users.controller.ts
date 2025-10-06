@@ -13,13 +13,16 @@ import {
   ParseIntPipe,
   ValidationPipe,
   UsePipes,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { QueryUserDto } from './dto/query-user.dto';
+import { ResponseInterceptor } from 'src/response/response.interceptor';
 
 @Controller('users')
+@UseInterceptors(ResponseInterceptor)
 @UsePipes(
   new ValidationPipe({
     transform: true,
