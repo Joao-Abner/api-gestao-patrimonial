@@ -63,7 +63,8 @@ export class PatrimoniosController {
   // Método DELETE para remover um patrimônio pelo ID
   @Delete(':id')
   @HttpCode(204)
-  remove(@Param('id', ParseIntPipe) id: number) { // Converte para number
+  remove(@Param('id', ParseIntPipe) id: number) {
+    // Converte para number
     return this.patrimoniosService.remove(id);
   }
 }
