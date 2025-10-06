@@ -14,14 +14,18 @@ import {
   ValidationPipe,
   UsePipes,
   UseInterceptors,
+  UseFilters,
+  NotFoundException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { QueryUserDto } from './dto/query-user.dto';
 import { ResponseInterceptor } from 'src/response/response.interceptor';
+import { CustomExceptionFilter } from 'src/custom-exception/custom-exception.filter';
 
 @Controller('users')
+@UseFilters(CustomExceptionFilter)
 @UseInterceptors(ResponseInterceptor)
 @UsePipes(
   new ValidationPipe({
@@ -73,6 +77,12 @@ export class UsersController {
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   findOne(@Param('id', ParseIntPipe) id: number) {
+    // 5. Adiciona a lógica para lançar a exceção
+    if (id !== 1) {
+      throw new NotFoundException(
+        `O usuário com ID ${id} não foi encontrado para este teste.`,
+      );
+    }
     return this.usersService.findOne(id);
   }
 
