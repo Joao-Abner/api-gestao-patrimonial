@@ -20,11 +20,13 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { QueryUserDto } from './dto/query-user.dto';
 
 @Controller('users')
-@UsePipes(new ValidationPipe({ 
-  transform: true, 
-  whitelist: true, 
-  forbidNonWhitelisted: true 
-}))
+@UsePipes(
+  new ValidationPipe({
+    transform: true,
+    whitelist: true,
+    forbidNonWhitelisted: true,
+  }),
+)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
