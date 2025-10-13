@@ -1,0 +1,97 @@
+# Arquivo de testes para o UsersController
+#
+# Este arquivo contém requisições para testar:
+# 1. O AuthMiddleware (com e sem token)
+# 2. O ResponseInterceptor (em rotas de sucesso)
+# 3. O CustomExceptionFilter (em rotas que lançam exceção)
+
+@baseUrl = http://localhost:3000
+
+###
+# ======================================================
+# TESTES DE AUTENTICAÇÃO (AuthMiddleware)
+# ======================================================
+
+###
+# [FALHA] GET /users - Sem Cabeçalho de Autenticação
+#
+# OBJETIVO: Testar se o AuthMiddleware bloqueia a requisição.
+# ESPERADO: HTTP 401 Unauthorized com a mensagem "Token não fornecido".
+GET {{baseUrl}}/users
+
+
+###
+# [SUCESSO] GET /users - Com Cabeçalho de Autenticação
+#
+# OBJETIVO: Testar se o AuthMiddleware permite a requisição com o cabeçalho.
+# ESPERADO: HTTP 200 OK com a resposta padronizada pelo ResponseInterceptor.
+GET {{baseUrl}}/users
+Authorization: Bearer fake-token-123
+
+
+###
+# ======================================================
+# TESTES DE RESPOSTA (Interceptor e Exception Filter)
+# ======================================================
+
+###
+# [FALHA] GET /users/99 - Teste do CustomExceptionFilter
+#
+# OBJETIVO: Forçar a exceção no controller para testar o filtro.
+# ESPERADO: HTTP 404 Not Found com a resposta de erro padronizada.
+GET {{baseUrl}}/users/99
+Authorization: Bearer fake-token-123
+
+
+###
+# [SUCESSO] GET /users/1 - Teste do ResponseInterceptor
+#
+# OBJETIVO: Testar o caminho de sucesso para o interceptor de resposta.
+# ESPERADO: HTTP 200 OK com o usuário retornado dentro do objeto { success: true, data: ... }.
+# PRÉ-REQUISITO: É necessário que um usuário com ID 1 exista.
+GET {{baseUrl}}/users/1
+Authorization: Bearer fake-token-123
+
+
+###
+# ======================================================
+# TESTES DE CRIAÇÃO E VALIDAÇÃO
+# ======================================================
+
+###
+# [SUCESSO] POST /users - Criar um novo usuário
+#
+# OBJETIVO: Testar a criação de um usuário válido.
+# ESPERADO: HTTP 201 Created com os dados do usuário criado.
+POST {{baseUrl}}/users
+Authorization: Bearer fake-token-123
+Content-Type: application/json
+
+{
+  "name": "Joao Abner",
+  "age": 30,
+  "address": {
+    "city": "Guarapuava",
+    "state": "PR"
+  }
+}
+
+
+###
+# [FALHA] POST /users - Tentar criar usuário com dados inválidos
+#
+# OBJETIVO: Testar o ValidationPipe global.
+# ESPERADO: HTTP 400 Bad Request com mensagens de erro de validação.
+POST {{baseUrl}}/users
+Authorization: Bearer fake-token-123
+Content-Type: application/json
+
+{
+  "name": "",
+  "age": 17,
+  "address": {
+    "city": "",
+    "state": ""
+  },
+  "extraField": "este-campo-nao-existe"
+}
