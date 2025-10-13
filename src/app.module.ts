@@ -10,9 +10,10 @@ import { SharedModule } from './shared/shared.module';
 import { PatrimoniosModule } from './patrimonios/patrimonios.module';
 import { UsersModule } from './users/users.module';
 import { AuthMiddleware } from './auth/auth.middleware';
+import { ErrorsModule } from './errors/errors.module';
 
 @Module({
-  imports: [CoreModule, SharedModule, PatrimoniosModule, UsersModule],
+  imports: [CoreModule, SharedModule, PatrimoniosModule, UsersModule, ErrorsModule],
   controllers: [AppController],
   providers: [AppService],
 })
