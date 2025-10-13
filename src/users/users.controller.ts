@@ -9,7 +9,7 @@ import {
   Patch,
   Post,
   Put,
-  Query,
+  //Query,
   ParseIntPipe,
   ValidationPipe,
   UsePipes,
@@ -20,7 +20,7 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { QueryUserDto } from './dto/query-user.dto';
+// import { QueryUserDto } from './dto/query-user.dto';
 import { ResponseInterceptor } from 'src/response/response.interceptor';
 import { CustomExceptionFilter } from 'src/custom-exception/custom-exception.filter';
 
@@ -53,10 +53,14 @@ export class UsersController {
    * @param filters - Filtros de busca e paginação
    * @returns Lista paginada de usuários com metadados
    */
+  // @Get()
+  // @HttpCode(HttpStatus.OK)
+  // findAll(@Query() filters: QueryUserDto) {
+  //   return this.usersService.findAll(filters);
+  // }
   @Get()
-  @HttpCode(HttpStatus.OK)
-  findAll(@Query() filters: QueryUserDto) {
-    return this.usersService.findAll(filters);
+  findAll() {
+    return [{ id: 1, name: 'John Doe' }];
   }
 
   /**
@@ -79,11 +83,10 @@ export class UsersController {
   findOne(@Param('id', ParseIntPipe) id: number) {
     // 5. Adiciona a lógica para lançar a exceção
     if (id !== 1) {
-      throw new NotFoundException(
-        `O usuário com ID ${id} não foi encontrado para este teste.`,
-      );
+      throw new NotFoundException(`Usuário não encontrado`);
     }
-    return this.usersService.findOne(id);
+    //return this.usersService.findOne(id);
+    return { id, name: 'John Doe' };
   }
 
   /**
