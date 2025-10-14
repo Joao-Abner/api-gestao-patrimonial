@@ -5,10 +5,13 @@ import {
   HttpException,
   HttpStatus,
   Query,
+  UseFilters,
 } from '@nestjs/common';
 import { Get, Param, NotFoundException } from '@nestjs/common';
+import { HttpExceptionFilter } from './http-exception/http-exception.filter';
 
 @Controller('errors')
+@UseFilters(HttpExceptionFilter)
 export class ErrorsController {
   @Get('http-exception-simple')
   throwHttpExceptionSimple() {
