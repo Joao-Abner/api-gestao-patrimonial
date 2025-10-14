@@ -2,12 +2,19 @@ import {
   BadRequestException,
   Controller,
   ForbiddenException,
+  HttpException,
+  HttpStatus,
   Query,
 } from '@nestjs/common';
 import { Get, Param, NotFoundException } from '@nestjs/common';
 
 @Controller('errors')
 export class ErrorsController {
+  @Get('http-exception-simple')
+  throwHttpExceptionSimple() {
+    throw new HttpException('Acesso proibido', HttpStatus.FORBIDDEN);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     if (id !== '1') {
