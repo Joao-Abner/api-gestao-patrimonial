@@ -9,10 +9,15 @@ import {
 } from '@nestjs/common';
 import { Get, Param, NotFoundException } from '@nestjs/common';
 import { HttpExceptionFilter } from './http-exception/http-exception.filter';
+import { CustomException } from './custom-exception';
 
 @Controller('errors')
 @UseFilters(HttpExceptionFilter)
 export class ErrorsController {
+  @Get('/custom-error')
+  throwCustomError() {
+    throw new CustomException();
+  }
   @Get('http-exception-simple')
   throwHttpExceptionSimple() {
     throw new HttpException('Acesso proibido', HttpStatus.FORBIDDEN);
