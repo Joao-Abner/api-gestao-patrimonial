@@ -22,14 +22,6 @@ export class ErrorsController {
   throwHttpExceptionSimple() {
     throw new HttpException('Acesso proibido', HttpStatus.FORBIDDEN);
   }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    if (id !== '1') {
-      throw new NotFoundException('Recurso não encontrado');
-    }
-    return { id, message: 'Recurso encontrado' };
-  }
   @Get('bad-request')
   badRequest(@Query('param') param: string) {
     if (!param) {
@@ -39,7 +31,6 @@ export class ErrorsController {
     }
     return { message: 'Requisição válida', param };
   }
-
   @Get('admin-only')
   adminOnly() {
     const userRole: string = 'user'; // Simulação de papel do usuário
@@ -49,5 +40,12 @@ export class ErrorsController {
       );
     }
     return { message: 'Bem-vindo, administrador!' };
+  }
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    if (id !== '1') {
+      throw new NotFoundException('Recurso não encontrado');
+    }
+    return { id, message: 'Recurso encontrado' };
   }
 }
