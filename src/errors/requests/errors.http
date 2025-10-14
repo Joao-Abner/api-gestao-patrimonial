@@ -1,0 +1,65 @@
+# Arquivo de testes para o ErrorsController
+#
+# Este arquivo contém requisições para testar:
+# 1. As exceções HTTP padrão do NestJS (NotFound, BadRequest, Forbidden).
+# 2. Uma HttpException genérica.
+# 3. Uma exceção personalizada (CustomException).
+# 4. O HttpExceptionFilter, que padroniza todas as respostas de erro.
+#
+# NOTA: Todas as requisições incluem o header 'Authorization' para passar
+# pelo AuthMiddleware que está aplicado globalmente.
+
+@baseUrl = http://localhost:3000
+
+###
+# ======================================================
+# TESTES DE EXCEÇÕES PADRÃO
+# ======================================================
+
+###
+# [FALHA 404] GET /errors/:id - Teste da NotFoundException
+#
+# OBJETIVO: Testar a rota que busca um recurso por ID, passando um ID que não existe.
+# ESPERADO: HTTP 404 Not Found com a resposta padronizada pelo HttpExceptionFilter.
+GET {{baseUrl}}/errors/99
+Authorization: Bearer fake-token-123
+
+
+###
+# [FALHA 400] GET /errors/bad-request - Teste da BadRequestException
+#
+# OBJETIVO: Testar a rota que espera um parâmetro de query, mas não o recebe.
+# ESPERADO: HTTP 400 Bad Request com a resposta padronizada.
+GET {{baseUrl}}/errors/bad-request
+Authorization: Bearer fake-token-123
+
+###
+# [FALHA 403] GET /errors/admin-only - Teste da ForbiddenException
+#
+# OBJETIVO: Testar a rota que simula acesso restrito a administradores.
+# ESPERADO: HTTP 403 Forbidden, pois o usuário simulado não é 'admin'.
+GET {{baseUrl}}/errors/admin-only
+Authorization: Bearer fake-token-123
+
+
+###
+# ======================================================
+# TESTES DE EXCEÇÕES GENÉRICAS E PERSONALIZADAS
+# ======================================================
+
+###
+# [FALHA 403] GET /errors/http-exception-simple - Teste da HttpException genérica
+#
+# OBJETIVO: Testar o lançamento de uma HttpException básica.
+# ESPERADO: HTTP 403 Forbidden com a resposta padronizada.
+GET {{baseUrl}}/errors/http-exception-simple
+Authorization: Bearer fake-token-123
+
+
+###
+# [FALHA 400] GET /errors/custom-error - Teste da CustomException
+#
+# OBJETIVO: Testar a exceção personalizada que estende HttpException.
+# ESPERADO: HTTP 400 Bad Request (conforme definido na CustomException) com a resposta padronizada.
+GET {{baseUrl}}/errors/custom-error
+Authorization: Bearer fake-token-123
