@@ -11,9 +11,10 @@ import { PatrimoniosModule } from './patrimonios/patrimonios.module';
 import { UsersModule } from './users/users.module';
 import { AuthMiddleware } from './auth/auth.middleware';
 import { ErrorsModule } from './errors/errors.module';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
-  imports: [CoreModule, SharedModule, PatrimoniosModule, UsersModule, ErrorsModule],
+  imports: [CoreModule, SharedModule, PatrimoniosModule, UsersModule, ErrorsModule, PrismaModule],
   controllers: [AppController],
   providers: [AppService],
 })
