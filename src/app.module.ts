@@ -14,7 +14,14 @@ import { ErrorsModule } from './errors/errors.module';
 import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
-  imports: [CoreModule, SharedModule, PatrimoniosModule, UsersModule, ErrorsModule, PrismaModule],
+  imports: [
+    CoreModule,
+    SharedModule,
+    PatrimoniosModule,
+    UsersModule,
+    ErrorsModule,
+    PrismaModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
