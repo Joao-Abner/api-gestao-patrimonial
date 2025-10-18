@@ -23,6 +23,7 @@ import { UserModule } from './user/user.module';
     ErrorsModule,
     PrismaModule,
     UserModule,
+    PrismaModule,
   ],
   controllers: [AppController],
   providers: [AppService],
