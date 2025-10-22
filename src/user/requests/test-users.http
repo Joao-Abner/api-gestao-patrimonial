@@ -1,0 +1,35 @@
+# POST /users
+POST http://localhost:3000/users
+Content-Type: application/json
+Authorization: Bearer fake-token-123 
+
+{
+  "name": "John AA",
+  "email": "johnaa@example.com",
+  "age": 30
+}
+
+###
+# GET /users
+GET http://localhost:3000/users
+Authorization: Bearer fake-token-123 
+
+###
+# GET /users/1
+GET http://localhost:3000/users/3
+Authorization: Bearer fake-token-123 
+
+###
+# PATCH /users/1
+PATCH http://localhost:3000/users/3
+Content-Type: application/json
+Authorization: Bearer fake-token-123 
+
+{
+  "name": "Jane Doe"
+}
+
+###
+# DELETE /users/1
+DELETE http://localhost:3000/users/1
+Authorization: Bearer fake-token-123 
