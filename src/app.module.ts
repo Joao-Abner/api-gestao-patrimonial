@@ -12,7 +12,6 @@ import { UsersModule } from './users/users.module';
 import { AuthMiddleware } from './auth/auth.middleware';
 import { ErrorsModule } from './errors/errors.module';
 import { PrismaModule } from './prisma/prisma.module';
-import { PrismaService } from './prisma/prisma.service';
 
 @Module({
   imports: [
@@ -22,7 +21,6 @@ import { PrismaService } from './prisma/prisma.service';
     UsersModule,
     ErrorsModule,
     PrismaModule,
-    PrismaService,
   ],
   controllers: [AppController],
   providers: [AppService],
