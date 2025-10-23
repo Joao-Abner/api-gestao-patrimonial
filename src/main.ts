@@ -9,6 +9,9 @@ async function bootstrap() {
       transform: true, // Converte automaticamente os tipos (ex: string para number)
       whitelist: true, // Remove propriedades não definidas no DTO
       forbidNonWhitelisted: true, // Lança um erro se propriedades não definidas forem encontradas
+      transformOptions: {
+        enableImplicitConversion: true, // Converte automaticamente os tipos (ex: string para number)
+      },
     }),
   );
   await app.listen(3000);

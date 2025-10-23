@@ -8,14 +8,12 @@ import {
   Param,
   Patch,
   Post,
-  Put,
   //Query,
   ParseIntPipe,
   ValidationPipe,
   UsePipes,
   UseInterceptors,
   UseFilters,
-  NotFoundException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -23,6 +21,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 // import { QueryUserDto } from './dto/query-user.dto';
 import { ResponseInterceptor } from 'src/response/response.interceptor';
 import { CustomExceptionFilter } from 'src/custom-exception/custom-exception.filter';
+import { Prisma } from '@prisma/client';
 
 @Controller('users')
 @UseFilters(CustomExceptionFilter)
@@ -36,97 +35,40 @@ import { CustomExceptionFilter } from 'src/custom-exception/custom-exception.fil
 )
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-
-  /**
-   * POST /users - Criar um novo usuário
-   * @param createUserDto - Dados do usuário a ser criado
-   * @returns Usuário criado com ID gerado
-   */
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  async create(@Body() createUserDto: CreateUserDto) {
+    // Assumindo que CreateUserDto tem name, email, age
+    const data: Prisma.UserCreateInput = createUserDto;
+    return await this.usersService.create(data);
   }
 
-  /**
-   * GET /users - Listar usuários com filtros e paginação
-   * @param filters - Filtros de busca e paginação
-   * @returns Lista paginada de usuários com metadados
-   */
-  // @Get()
-  // @HttpCode(HttpStatus.OK)
-  // findAll(@Query() filters: QueryUserDto) {
-  //   return this.usersService.findAll(filters);
-  // }
   @Get()
-  findAll() {
-    return [{ id: 1, name: 'John Doe' }];
-  }
-
-  /**
-   * GET /users/statistics - Obter estatísticas dos usuários
-   * @returns Estatísticas gerais dos usuários
-   */
-  @Get('statistics')
   @HttpCode(HttpStatus.OK)
-  getStatistics() {
-    return this.usersService.getStatistics();
+  async findAll(/*@Query() filters: QueryUserDto*/) {
+    // Parâmetro Query comentado
+    return await this.usersService.findAll(/*filters*/); // Argumento comentado
   }
 
-  /**
-   * GET /users/:id - Buscar usuário específico por ID
-   * @param id - ID do usuário
-   * @returns Usuário encontrado
-   */
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    // 5. Adiciona a lógica para lançar a exceção
-    if (id !== 1) {
-      throw new NotFoundException(`Usuário não encontrado`);
-    }
-    //return this.usersService.findOne(id);
-    return { id, name: 'John Doe' };
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return await this.usersService.findOne(id);
   }
 
-  /**
-   * PUT /users/:id - Atualizar usuário completamente
-   * @param id - ID do usuário
-   * @param updateUserDto - Dados completos do usuário
-   * @returns Usuário atualizado
-   */
-  @Put(':id')
-  @HttpCode(HttpStatus.OK)
-  update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() updateUserDto: UpdateUserDto,
-  ) {
-    return this.usersService.update(id, updateUserDto);
-  }
-
-  /**
-   * PATCH /users/:id - Atualizar usuário parcialmente
-   * @param id - ID do usuário
-   * @param updateUserDto - Dados parciais do usuário
-   * @returns Usuário atualizado
-   */
   @Patch(':id')
   @HttpCode(HttpStatus.OK)
-  partialUpdate(
+  async partialUpdate(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateUserDto: UpdateUserDto,
   ) {
-    return this.usersService.update(id, updateUserDto);
+    const data: Prisma.UserUpdateInput = updateUserDto;
+    return await this.usersService.update(id, data);
   }
 
-  /**
-   * DELETE /users/:id - Remover usuário
-   * @param id - ID do usuário
-   * @returns Sem conteúdo (204)
-   */
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.usersService.remove(id);
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    await this.usersService.remove(id);
   }
 }

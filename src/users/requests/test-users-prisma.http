@@ -13,15 +13,14 @@ Authorization: Bearer fake-token-123
 # GET /users
 GET http://localhost:3000/users
 Authorization: Bearer fake-token-123 
-
 ###
 # GET /users/1
-GET http://localhost:3000/users/3
+GET http://localhost:3000/users/4
 Authorization: Bearer fake-token-123 
 
 ###
-# PATCH /users/1
-PATCH http://localhost:3000/users/3
+# PATCH /users/4
+PATCH http://localhost:3000/users/4
 Content-Type: application/json
 Authorization: Bearer fake-token-123 
 
@@ -31,5 +30,5 @@ Authorization: Bearer fake-token-123
 
 ###
 # DELETE /users/1
-DELETE http://localhost:3000/users/1
+DELETE http://localhost:3000/users/4
 Authorization: Bearer fake-token-123 

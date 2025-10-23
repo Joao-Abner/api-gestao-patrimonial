@@ -1,11 +1,23 @@
-import { IsString, IsInt, Min, Max, ValidateNested, IsNotEmpty } from 'class-validator';
+import {
+  IsString,
+  IsInt,
+  Min,
+  Max,
+  // ValidateNested,
+  IsNotEmpty,
+  IsEmail,
+} from 'class-validator';
 import { Type } from 'class-transformer';
-import { AddressDto } from './address.dto';
+// import { AddressDto } from './address.dto';
 
 export class CreateUserDto {
   @IsString({ message: 'O nome deve ser uma string válida.' })
   @IsNotEmpty({ message: 'O nome é obrigatório.' })
   name: string;
+
+  @IsEmail({}, { message: 'O email deve ser um endereço de email válido.' })
+  @IsNotEmpty({ message: 'O email é obrigatório.' })
+  email: string;
 
   @Type(() => Number)
   @IsInt({ message: 'A idade deve ser um número inteiro.' })
@@ -13,7 +25,7 @@ export class CreateUserDto {
   @Max(100, { message: 'A idade máxima é 100 anos.' })
   age: number;
 
-  @ValidateNested({ message: 'O endereço deve ser um objeto válido.' })
-  @Type(() => AddressDto)
-  address: AddressDto;
+  // @ValidateNested({ message: 'O endereço deve ser um objeto válido.' })
+  // @Type(() => AddressDto)
+  // address: AddressDto;
 }
