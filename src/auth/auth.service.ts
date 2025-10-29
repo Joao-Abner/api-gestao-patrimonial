@@ -2,6 +2,7 @@ import {
   Injectable,
   // UnauthorizedException,
   ConflictException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
@@ -35,8 +36,33 @@ export class AuthService {
       },
     });
 
-    // Remova o campo senha do objeto retornado, por segurança
+    // remova o campo senha do objeto retornado, por segurança
     delete (user as { password?: string }).password;
     return user;
+  }
+
+  // método de login: valida as credenciais e retorna um token JWT
+  async login(email: string, password: string) {
+    // busca o usuário pelo email
+    const user = await this.prisma.user.findUnique({
+      where: { email },
+    });
+    if (!user) {
+      throw new UnauthorizedException('Credenciais inválidas.');
+    }
+    // compara a senha fornecida com o hash salvo
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      throw new UnauthorizedException('Credenciais inválidas.');
+    }
+
+    // credenciais ok, gerar JWT
+    // (payload pode incluir outras informações úteis do usuário)
+    const payload = { sub: user.id, email: user.email }; // 'sub' é padrão JWT para subject (id do usuário)
+    const token = this.jwtService.signAsync(payload);
+
+    return {
+      access_token: token,
+    };
   }
 }
