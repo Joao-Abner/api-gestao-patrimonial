@@ -7,8 +7,6 @@ import {
   HttpStatus,
   Param,
   Patch,
-  Post,
-  //Query,
   ParseIntPipe,
   ValidationPipe,
   UsePipes,
@@ -16,9 +14,7 @@ import {
   UseFilters,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-// import { QueryUserDto } from './dto/query-user.dto';
 import { ResponseInterceptor } from 'src/response/response.interceptor';
 import { CustomExceptionFilter } from 'src/custom-exception/custom-exception.filter';
 import { Prisma } from '@prisma/client';
@@ -35,13 +31,6 @@ import { Prisma } from '@prisma/client';
 )
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-  @Post()
-  @HttpCode(HttpStatus.CREATED)
-  async create(@Body() createUserDto: CreateUserDto) {
-    // Assumindo que CreateUserDto tem name, email, age
-    const data: Prisma.UserCreateInput = createUserDto;
-    return await this.usersService.create(data);
-  }
 
   @Get()
   @HttpCode(HttpStatus.OK)
