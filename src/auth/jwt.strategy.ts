@@ -21,7 +21,13 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     if (!user) {
       throw new UnauthorizedException('Usuário não encontrado.');
     }
-    delete (user as { password?: string }).password; // avisando o typescript que password pode existir ou não
-    return user; // O valor retornado aqui será atribuído a req.user
+    //delete (user as { password?: string }).password; // avisando o typescript que password pode existir ou não
+    // retorna o usuário sem a senha. Esse objeto será anexado ao request como req.user
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      createdAt: user.createdAt,
+    };
   }
 }
