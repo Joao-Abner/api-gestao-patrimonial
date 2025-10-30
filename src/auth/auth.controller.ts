@@ -1,5 +1,24 @@
-import { Controller, Post, Body, HttpCode, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  HttpCode,
+  HttpStatus,
+  UseGuards,
+  Req,
+  Get,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { JwtAuthGuard } from './jwt-auth.guard';
+import { Request } from 'express';
+
+interface RequestWithUser extends Request {
+  user: {
+    id: number;
+    email: string;
+    name: string;
+  };
+}
 
 @Controller('auth')
 export class AuthController {
@@ -23,5 +42,16 @@ export class AuthController {
   ) {
     const jwt = await this.authService.login(email, password);
     return jwt; // retornará { access_token: '...' }
+  }
+
+  // rota protegida com JWT guard
+  @UseGuards(JwtAuthGuard)
+  @Get('perfil')
+  getPerfil(@Req() request: RequestWithUser) {
+    const usuarioLogado = request.user;
+    return {
+      message: 'Você acessou uma rota protegida!',
+      user: usuarioLogado,
+    };
   }
 }
