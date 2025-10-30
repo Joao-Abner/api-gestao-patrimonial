@@ -36,8 +36,17 @@ export class AuthService {
     });
 
     // remova o campo senha do objeto retornado, por segurança
-    delete (user as { password?: string }).password;
-    return user;
+    // delete (user as { password?: string }).password;
+    // return user;
+
+    // Em vez de usar 'delete', retornando um novo objeto:
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      createdAt: user.createdAt,
+      //  'password' e 'age' simplesmente não são incluídos
+    };
   }
 
   // método de login: valida as credenciais e retorna um token JWT
