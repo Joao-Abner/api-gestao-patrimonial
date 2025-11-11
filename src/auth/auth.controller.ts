@@ -13,10 +13,12 @@ import { JwtAuthGuard } from './jwt-auth.guard';
 import { Request } from 'express';
 import {
   ApiBearerAuth,
+  ApiBody,
   ApiOperation,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { LoginDto } from './dto/login.dto';
 
 interface RequestWithUser extends Request {
   user: {
@@ -45,6 +47,7 @@ export class AuthController {
     return newUser;
   }
   @Post('login')
+  @ApiBody({ type: LoginDto })
   @HttpCode(HttpStatus.OK) // define o status como 200 OK explicitamente
   @ApiOperation({ summary: 'Realiza login com email e senha' })
   @ApiResponse({ status: 201, description: 'Login com sucesso' })
