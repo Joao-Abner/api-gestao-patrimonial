@@ -19,6 +19,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { LoginDto } from './dto/login.dto';
+import { RegisterDto } from './dto/register.dto';
 
 interface RequestWithUser extends Request {
   user: {
@@ -38,6 +39,7 @@ export class AuthController {
   @ApiOperation({ summary: 'Registra um novo usuário' })
   @ApiResponse({ status: 201, description: 'Usuário registrado com sucesso' })
   @ApiResponse({ status: 409, description: 'Usuário já existe' })
+  @ApiBody({ type: RegisterDto })
   async register(
     @Body('email') email: string,
     @Body('password') password: string,
@@ -50,7 +52,7 @@ export class AuthController {
   @ApiBody({ type: LoginDto })
   @HttpCode(HttpStatus.OK) // define o status como 200 OK explicitamente
   @ApiOperation({ summary: 'Realiza login com email e senha' })
-  @ApiResponse({ status: 201, description: 'Login com sucesso' })
+  @ApiResponse({ status: 200, description: 'Login com sucesso' })
   @ApiResponse({ status: 401, description: 'Credenciais inválidas' })
   async login(
     @Body('email') email: string,
