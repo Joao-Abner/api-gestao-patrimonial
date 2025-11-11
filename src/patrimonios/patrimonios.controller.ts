@@ -16,7 +16,9 @@ import { PatrimoniosService } from './patrimonios.service';
 import { CreatePatrimonioDto } from './dto/create-patrimonio.dto';
 import { UpdatePatrimonioDto } from './dto/update-patrimonio.dto';
 import { QueryFilterDto } from './dto/query-filter.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('patrimonios')
 @Controller('patrimonios')
 export class PatrimoniosController {
   constructor(private readonly patrimoniosService: PatrimoniosService) {} // Injeção do serviço de patrimônios

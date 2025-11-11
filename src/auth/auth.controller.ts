@@ -11,6 +11,7 @@ import {
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { Request } from 'express';
+import { ApiTags } from '@nestjs/swagger';
 
 interface RequestWithUser extends Request {
   user: {
@@ -20,6 +21,7 @@ interface RequestWithUser extends Request {
   };
 }
 
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}

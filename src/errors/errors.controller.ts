@@ -10,7 +10,9 @@ import {
 import { Get, Param, NotFoundException } from '@nestjs/common';
 import { HttpExceptionFilter } from './http-exception/http-exception.filter';
 import { CustomException } from './custom-exception';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('errors')
 @Controller('errors')
 @UseFilters(HttpExceptionFilter)
 export class ErrorsController {
