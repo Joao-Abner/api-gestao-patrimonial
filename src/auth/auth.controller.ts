@@ -11,6 +11,15 @@ import {
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { Request } from 'express';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import { LoginDto } from './dto/login.dto';
+import { RegisterDto } from './dto/register.dto';
 
 interface RequestWithUser extends Request {
   user: {
@@ -20,12 +29,17 @@ interface RequestWithUser extends Request {
   };
 }
 
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('register')
   @HttpCode(HttpStatus.CREATED) // por padrão Post retorna 201 Createds
+  @ApiOperation({ summary: 'Registra um novo usuário' })
+  @ApiResponse({ status: 201, description: 'Usuário registrado com sucesso' })
+  @ApiResponse({ status: 409, description: 'Usuário já existe' })
+  @ApiBody({ type: RegisterDto })
   async register(
     @Body('email') email: string,
     @Body('password') password: string,
@@ -35,7 +49,11 @@ export class AuthController {
     return newUser;
   }
   @Post('login')
+  @ApiBody({ type: LoginDto })
   @HttpCode(HttpStatus.OK) // define o status como 200 OK explicitamente
+  @ApiOperation({ summary: 'Realiza login com email e senha' })
+  @ApiResponse({ status: 200, description: 'Login com sucesso' })
+  @ApiResponse({ status: 401, description: 'Credenciais inválidas' })
   async login(
     @Body('email') email: string,
     @Body('password') password: string,
@@ -46,7 +64,10 @@ export class AuthController {
 
   // rota protegida com JWT guard
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @Get('perfil')
+  @ApiOperation({ summary: 'Retorna informações do usuário logado' })
+  @ApiResponse({ status: 200, description: 'Usuário logado' })
   getPerfil(@Req() request: RequestWithUser) {
     const usuarioLogado = request.user;
     return {

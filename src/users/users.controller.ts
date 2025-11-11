@@ -12,6 +12,7 @@ import {
   UsePipes,
   UseInterceptors,
   UseFilters,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -19,7 +20,15 @@ import { ResponseInterceptor } from 'src/response/response.interceptor';
 import { CustomExceptionFilter } from 'src/custom-exception/custom-exception.filter';
 import { Prisma } from '@prisma/client';
 
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { Roles } from 'src/auth/roles.decorator';
+import { ApiTags } from '@nestjs/swagger';
+
+@ApiTags('users')
 @Controller('users')
+@UseGuards(JwtAuthGuard, RolesGuard) // Aplica o Auth e Roles Guards para todo o controlador
+@Roles('ADMIN') // define que "ADMIN" é necessário para todas as rotas abaixo
 @UseFilters(CustomExceptionFilter)
 @UseInterceptors(ResponseInterceptor)
 @UsePipes(
