@@ -11,7 +11,12 @@ import {
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { Request } from 'express';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
 interface RequestWithUser extends Request {
   user: {
@@ -54,6 +59,7 @@ export class AuthController {
 
   // rota protegida com JWT guard
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @Get('perfil')
   @ApiOperation({ summary: 'Retorna informações do usuário logado' })
   @ApiResponse({ status: 200, description: 'Usuário logado' })
