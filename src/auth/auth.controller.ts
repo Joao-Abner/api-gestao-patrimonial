@@ -48,12 +48,62 @@ export class AuthController {
     const newUser = await this.authService.register(email, password, name);
     return newUser;
   }
+
   @Post('login')
-  @ApiBody({ type: LoginDto })
   @HttpCode(HttpStatus.OK) // define o status como 200 OK explicitamente
-  @ApiOperation({ summary: 'Realiza login com email e senha' })
-  @ApiResponse({ status: 200, description: 'Login com sucesso' })
-  @ApiResponse({ status: 401, description: 'Credenciais inválidas' })
+  @ApiOperation({
+    summary: 'Realiza login com email e senha',
+    description: 'Retorna um token JWT em caso de sucesso.',
+  })
+  @ApiBody({
+    type: LoginDto,
+    description: 'Dados de login do usuário',
+    examples: {
+      // Exemplo de corpo de requisição válido
+      loginValido: {
+        summary: 'Login Válido',
+        value: {
+          email: 'usuario@email',
+          password: 'senhaSegura123',
+        } as LoginDto,
+      },
+      // Exemplo inválido (pelo ValidationPipe)
+      emailInvalido: {
+        summary: 'Email com formato inválido',
+        description: 'Resultará em um erro 400 Bad Request.',
+        value: {
+          email: 'email-invalido.com',
+          password: 'senhaForte123',
+        } as LoginDto,
+      },
+      // Exemplo inválido (pelo ValidationPipe)
+      senhaAusente: {
+        summary: 'Senha ausente',
+        description: 'Resultará em um erro 400 Bad Request.',
+        value: {
+          email: 'usuario@email.com',
+        } as LoginDto,
+      },
+    },
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Login realizado com sucesso. Retorna o token de acesso.',
+  })
+  @ApiResponse({
+    status: 400,
+    description:
+      'Requisição inválida (Bad Request). O corpo (body) não atende aos requisitos de validação (ex: email inválido, senha ausente).',
+  })
+  @ApiResponse({
+    status: 401,
+    description:
+      'Não autorizado (Unauthorized). Credenciais inválidas (email ou senha incorretos).',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Erro interno do servidor.',
+  })
   async login(
     @Body('email') email: string,
     @Body('password') password: string,
