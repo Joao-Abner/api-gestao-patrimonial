@@ -57,32 +57,44 @@ export class AuthController {
   })
   @ApiBody({
     type: LoginDto,
-    description: 'Dados de login do usuário',
     examples: {
-      // Exemplo de corpo de requisição válido
-      loginValido: {
-        summary: 'Login Válido',
-        value: {
-          email: 'usuario@email',
-          password: 'senhaSegura123',
-        } as LoginDto,
+      validoEmailComum: {
+        summary: 'Email padrão',
+        value: { email: 'usuario.comum@email.com', password: 'SenhaForte123' },
       },
-      // Exemplo inválido (pelo ValidationPipe)
-      emailInvalido: {
+      validoEmailComSubdominio: {
+        summary: 'Email com subdomínio e senha no limite',
+        value: {
+          email: 'nome.sobrenome@departamento.empresa.com',
+          password: '12345678',
+        },
+      },
+      validoEmailComSimbolos: {
+        summary: 'Email com "+" (sub-endereçamento)',
+        value: { email: 'user+teste@gmail.com', password: 'minhasenha_987' },
+      },
+      invalidoFormatoEmail: {
         summary: 'Email com formato inválido',
-        description: 'Resultará em um erro 400 Bad Request.',
-        value: {
-          email: 'email-invalido.com',
-          password: 'senhaForte123',
-        } as LoginDto,
+        description: 'Falha: O email não está em um formato válido (@IsEmail).',
+        value: { email: 'usuario-sem-arroba.com', password: 'SenhaForte123' },
       },
-      // Exemplo inválido (pelo ValidationPipe)
-      senhaAusente: {
-        summary: 'Senha ausente',
-        description: 'Resultará em um erro 400 Bad Request.',
-        value: {
-          email: 'usuario@email.com',
-        } as LoginDto,
+      invalidoSenhaCurta: {
+        summary: 'Senha muito curta (7 caracteres)',
+        description:
+          'Falha: A senha não atinge o comprimento mínimo de 8 caracteres (@MinLength(8)).',
+        value: { email: 'usuario.comum@email.com', password: '1234567' },
+      },
+      invalidoEmailAusente: {
+        summary: 'Campo email ausente',
+        description:
+          'Falha: O campo "email" é obrigatório e não foi fornecido.',
+        value: { password: 'SenhaForte123' },
+      },
+      invalidoSenhaAusente: {
+        summary: 'Campo password ausente',
+        description:
+          'Falha: O campo "password" é obrigatório e não foi fornecido.',
+        value: { email: 'usuario.comum@email.com' },
       },
     },
   })
@@ -105,10 +117,11 @@ export class AuthController {
     description: 'Erro interno do servidor.',
   })
   async login(
-    @Body('email') email: string,
-    @Body('password') password: string,
+    // @Body('email') email: string,
+    // @Body('password') password: string,
+    @Body() loginDto: LoginDto,
   ) {
-    const jwt = await this.authService.login(email, password);
+    const jwt = await this.authService.login(loginDto.email, loginDto.password);
     return jwt; // retornará { access_token: '...' }
   }
 
