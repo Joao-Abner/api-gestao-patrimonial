@@ -3,7 +3,7 @@
 
 **Aluno:** João Abner Pereira de Almeida.
 
-______
+---
 ## 📋 Descrição do Projeto
 API RESTful desenvolvida com NestJS para o gerenciamento de patrimônios e usuários. O sistema permite o cadastro de usuários com níveis de acesso (Admin/User) e o controle de bens patrimoniais, incluindo localização e responsável.
 
