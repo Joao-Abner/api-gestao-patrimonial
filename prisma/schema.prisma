@@ -13,9 +13,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Enum para padronizar o status (ID8 - Modelagem)
 enum Role {
   USER
   ADMIN
+}
+
+enum StatusPatrimonio {
+  ATIVO
+  INATIVO
+  MANUTENCAO
 }
 
 model User {
@@ -25,4 +32,25 @@ model User {
   password  String
   createdAt DateTime @default(now())
   role     Role   @default(USER) // apenas um role por usuário
+
+  // Relação: Um usuário pode ser responsável por vários patrimônios
+  patrimonios Patrimonio[]
+}
+
+model Patrimonio {
+  id               Int              @id @default(autoincrement())
+  nome             String
+  numeroPatrimonio Int              
+  descricao        String
+  valor            Float            
+  localizacao      Json             // Armazena o objeto {bloco, piso, sala} direto como JSON
+  observacao       String?          // Opcional, como no DTO
+  status           StatusPatrimonio // Usa o Enum definido acima
+  
+  // Relação com User (Responsável)
+  responsavelId    Int
+  responsavel      User             @relation(fields: [responsavelId], references: [id])
+
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
 }

@@ -48,17 +48,80 @@ export class AuthController {
     const newUser = await this.authService.register(email, password, name);
     return newUser;
   }
+
   @Post('login')
-  @ApiBody({ type: LoginDto })
   @HttpCode(HttpStatus.OK) // define o status como 200 OK explicitamente
-  @ApiOperation({ summary: 'Realiza login com email e senha' })
-  @ApiResponse({ status: 200, description: 'Login com sucesso' })
-  @ApiResponse({ status: 401, description: 'Credenciais inválidas' })
+  @ApiOperation({
+    summary: 'Realiza login com email e senha',
+    description: 'Retorna um token JWT em caso de sucesso.',
+  })
+  @ApiBody({
+    type: LoginDto,
+    examples: {
+      validoEmailComum: {
+        summary: 'Email padrão',
+        value: { email: 'usuario.comum@email.com', password: 'SenhaForte123' },
+      },
+      validoEmailComSubdominio: {
+        summary: 'Email com subdomínio e senha no limite',
+        value: {
+          email: 'nome.sobrenome@departamento.empresa.com',
+          password: '12345678',
+        },
+      },
+      validoEmailComSimbolos: {
+        summary: 'Email com "+" (sub-endereçamento)',
+        value: { email: 'user+teste@gmail.com', password: 'minhasenha_987' },
+      },
+      invalidoFormatoEmail: {
+        summary: 'Email com formato inválido',
+        description: 'Falha: O email não está em um formato válido (@IsEmail).',
+        value: { email: 'usuario-sem-arroba.com', password: 'SenhaForte123' },
+      },
+      invalidoSenhaCurta: {
+        summary: 'Senha muito curta (7 caracteres)',
+        description:
+          'Falha: A senha não atinge o comprimento mínimo de 8 caracteres (@MinLength(8)).',
+        value: { email: 'usuario.comum@email.com', password: '1234567' },
+      },
+      invalidoEmailAusente: {
+        summary: 'Campo email ausente',
+        description:
+          'Falha: O campo "email" é obrigatório e não foi fornecido.',
+        value: { password: 'SenhaForte123' },
+      },
+      invalidoSenhaAusente: {
+        summary: 'Campo password ausente',
+        description:
+          'Falha: O campo "password" é obrigatório e não foi fornecido.',
+        value: { email: 'usuario.comum@email.com' },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Login realizado com sucesso. Retorna o token de acesso.',
+  })
+  @ApiResponse({
+    status: 400,
+    description:
+      'Requisição inválida (Bad Request). O corpo (body) não atende aos requisitos de validação (ex: email inválido, senha ausente).',
+  })
+  @ApiResponse({
+    status: 401,
+    description:
+      'Não autorizado (Unauthorized). Credenciais inválidas (email ou senha incorretos).',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Erro interno do servidor.',
+  })
   async login(
-    @Body('email') email: string,
-    @Body('password') password: string,
+    // @Body('email') email: string,
+    // @Body('password') password: string,
+    @Body() loginDto: LoginDto,
   ) {
-    const jwt = await this.authService.login(email, password);
+    const jwt = await this.authService.login(loginDto.email, loginDto.password);
     return jwt; // retornará { access_token: '...' }
   }
 
