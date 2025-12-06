@@ -63,9 +63,9 @@ O sistema utiliza um banco de dados relacional MySQL com a seguinte estrutura:
 - [x] **ID10:** O aluno criou e aplicou migrações de banco de dados.
 - [x] **ID11:** O aluno implementou corretamente as operações CRUD para pelo menos uma entidade (Patrimonios) no projeto.
 
-### RA3 - Realizar testes automatizados para garantir a qualidade da API.
-- [ ] **ID12:** O aluno implementou testes automatizados (unitários ou de integração) utilizando Jest.
-- [ ] **ID13:** O aluno garantiu a cobertura de testes para, pelo menos, as principais rotas e serviços da API.
+### ~~RA3 - Realizar testes automatizados para garantir a qualidade da API.~~
+- ~~[ ] **ID12:** O aluno implementou testes automatizados (unitários ou de integração) utilizando Jest.~~
+- ~~[ ] **ID13:** O aluno garantiu a cobertura de testes para, pelo menos, as principais rotas e serviços da API.~~
 
 ### RA4 - Gerar a documentação da API e realizar o deploy em um ambiente de produção.
 - [x] **ID14:** O aluno integrou corretamente o Swagger à API, gerando a documentação completa e interativa.
