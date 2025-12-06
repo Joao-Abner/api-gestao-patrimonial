@@ -26,6 +26,10 @@ async function bootstrap() {
       },
     }),
   );
-  await app.listen(3000);
+  // ID21: Middleware/Configuração - Habilitar CORS para acesso externo (Frontend/Swagger Web)
+  app.enableCors(); 
+
+  // ID17: Variáveis de Ambiente - Usar a porta do provedor de nuvem (Railway) ou 3000 localmente
+  await app.listen(process.env.PORT ?? 3000);
 }
 void bootstrap();
