@@ -7,11 +7,12 @@
 generator client {
   provider = "prisma-client-js"
 }
+// Gera uma imagem do diagrama ERD (Entity Relationship Diagram)
+// generator erd {
+//   provider = "prisma-erd-generator"
+//   output   = "../ERD.svg"
+// }
 
-generator erd {
-  provider = "prisma-erd-generator"
-  output   = "../ERD.svg"
-}
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
