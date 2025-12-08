@@ -34,6 +34,9 @@ export class AppModule {
       .exclude(
         { path: 'auth/register', method: RequestMethod.POST },
         { path: 'auth/login', method: RequestMethod.POST },
+        // execeções para o middleware liberar o swagger
+        { path: 'api', method: RequestMethod.ALL },
+        { path: 'api/(.*)', method: RequestMethod.ALL },
       )
       .forRoutes('*');
   }
