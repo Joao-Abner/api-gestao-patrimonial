@@ -10,8 +10,8 @@ API RESTful desenvolvida com NestJS para o gerenciamento de patrimônios e usuá
 **Funcionalidade Extra Implementada:** Paginação e Filtros nas listagens.
 
 ## 🚀 Links Importantes
-- **API em Produção:** [Colar aqui seu link do Railway, ex: https://seu-app.up.railway.app]
-- **Documentação Swagger:** [Colar link do Railway]/api
+- **API em Produção:** https://api-gestao-patrimonial-production.up.railway.app
+- **Documentação Swagger:** https://api-gestao-patrimonial-production.up.railway.app/api
 - **Repositório:** https://github.com/Joao-Abner/api-gestao-patrimonial
 
 ## 🛠️ Tecnologias Utilizadas
