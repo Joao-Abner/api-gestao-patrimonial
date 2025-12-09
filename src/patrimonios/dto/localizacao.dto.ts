@@ -7,7 +7,7 @@ export class LocalizacaoDto {
   @IsNotEmpty({ message: 'O bloco é obrigatório.' })
   bloco: string;
 
-  @ApiProperty({ example: '2º Andar' })
+  @ApiProperty({ example: '2º Piso' })
   @IsString({ message: 'O piso deve ser uma string válida.' })
   @IsNotEmpty({ message: 'O piso é obrigatório.' })
   piso: string;
