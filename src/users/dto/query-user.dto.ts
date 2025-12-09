@@ -1,36 +1,39 @@
+import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsOptional, IsString, IsInt, Min, Max } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class QueryUserDto {
+  @ApiPropertyOptional({ example: 1, description: 'Número da página' })
   @IsOptional()
-  @IsInt({ message: 'A página deve ser um número inteiro.' })
-  @Min(1, { message: 'A página deve ser maior que 0.' })
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
   page?: number;
 
+  @ApiPropertyOptional({ example: 10, description: 'Itens por página' })
   @IsOptional()
-  @IsInt({ message: 'O limite deve ser um número inteiro.' })
-  @Min(1, { message: 'O limite deve ser maior que 0.' })
-  @Max(100, { message: 'O limite máximo é 100.' })
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  @Max(100)
   limit?: number;
 
+  @ApiPropertyOptional({ example: 'João', description: 'Filtrar por nome' })
   @IsOptional()
-  @IsString({ message: 'O filtro de nome deve ser uma string válida.' })
+  @IsString()
   name?: string;
 
+  @ApiPropertyOptional({ example: 18, description: 'Idade mínima' })
   @IsOptional()
-  @IsInt({ message: 'A idade mínima deve ser um número inteiro.' })
-  @Min(18, { message: 'A idade mínima deve ser 18 anos.' })
+  @Type(() => Number)
+  @IsInt()
+  @Min(18)
   minAge?: number;
 
+  @ApiPropertyOptional({ example: 60, description: 'Idade máxima' })
   @IsOptional()
-  @IsInt({ message: 'A idade máxima deve ser um número inteiro.' })
-  @Max(100, { message: 'A idade máxima deve ser 100 anos.' })
+  @Type(() => Number)
+  @IsInt()
+  @Max(100)
   maxAge?: number;
-
-  // @IsOptional()
-  // @IsString({ message: 'O filtro de cidade deve ser uma string válida.' })
-  // city?: string;
-
-  // @IsOptional()
-  // @IsString({ message: 'O filtro de estado deve ser uma string válida.' })
-  // state?: string;
 }
