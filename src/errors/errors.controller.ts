@@ -6,13 +6,17 @@ import {
   HttpStatus,
   Query,
   UseFilters,
+  UseGuards,
 } from '@nestjs/common';
 import { Get, Param, NotFoundException } from '@nestjs/common';
 import { HttpExceptionFilter } from './http-exception/http-exception.filter';
 import { CustomException } from './custom-exception';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @ApiTags('errors')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @Controller('errors')
 @UseFilters(HttpExceptionFilter)
 export class ErrorsController {

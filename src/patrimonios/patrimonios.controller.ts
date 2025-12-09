@@ -10,15 +10,19 @@ import {
   Put,
   Query,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { PatrimoniosService } from './patrimonios.service';
 // import type { Patrimonio } from './interfaces/patrimonio.interface';
 import { CreatePatrimonioDto } from './dto/create-patrimonio.dto';
 import { UpdatePatrimonioDto } from './dto/update-patrimonio.dto';
 import { QueryFilterDto } from './dto/query-filter.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @ApiTags('patrimonios')
+@ApiBearerAuth() // Indica que este controlador usa autenticação Bearer (JWT)
+@UseGuards(JwtAuthGuard)
 @Controller('patrimonios')
 export class PatrimoniosController {
   constructor(private readonly patrimoniosService: PatrimoniosService) {} // Injeção do serviço de patrimônios
