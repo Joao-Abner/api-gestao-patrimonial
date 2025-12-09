@@ -5,8 +5,11 @@ import {
   IsNumber,
   IsOptional,
   IsIn,
+  ValidateNested,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { LocalizacaoDto } from './localizacao.dto';
+import { Type } from 'class-transformer';
 
 export class UpdatePatrimonioDto {
   @ApiProperty({
@@ -35,14 +38,11 @@ export class UpdatePatrimonioDto {
   @IsOptional()
   valor?: number;
 
-  @ApiProperty({
-    example: '{ "bloco": "A", "piso": "2", "sala": "202" }',
-    required: false,
-  })
-  @IsString()
-  @IsNotEmpty()
+  @ApiProperty({ type: LocalizacaoDto, required: false })
   @IsOptional()
-  localizacao?: string;
+  @ValidateNested() // <--- Diz para validar o conteúdo interno (bloco, piso, sala)
+  @Type(() => LocalizacaoDto) // <--- Transforma o JSON recebido numa instância da classe LocalizacaoDto
+  localizacao?: LocalizacaoDto;
 
   @ApiProperty({ example: 'Observação atualizada', required: false })
   @IsString()
