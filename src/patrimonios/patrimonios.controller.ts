@@ -13,7 +13,6 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { PatrimoniosService } from './patrimonios.service';
-// import type { Patrimonio } from './interfaces/patrimonio.interface';
 import { CreatePatrimonioDto } from './dto/create-patrimonio.dto';
 import { UpdatePatrimonioDto } from './dto/update-patrimonio.dto';
 import { QueryFilterDto } from './dto/query-filter.dto';
